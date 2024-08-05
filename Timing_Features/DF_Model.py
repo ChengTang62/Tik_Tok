@@ -10,21 +10,15 @@ import h5py
 import time
 import json
 import threading
-from keras.utils.np_utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from keras.callbacks import ReduceLROnPlateau, EarlyStopping, ModelCheckpoint
 from keras.models import Model
-from keras.layers.convolutional import Conv1D, MaxPooling1D
-from keras.layers import Dense, Activation, ZeroPadding1D, \
-    GlobalAveragePooling1D, Add, Concatenate, Dropout
-from keras.layers.normalization import BatchNormalization
-from keras.optimizers import Adam
-from keras import Input
-from keras.models import Sequential
-from keras.layers import Conv1D, MaxPooling1D, BatchNormalization
-from keras.layers.core import Activation, Flatten, Dense, Dropout
-from keras.layers.advanced_activations import ELU
-from keras.initializers import glorot_uniform
-from keras.optimizers import Adamax
+from tensorflow.keras.layers import Conv1D, MaxPooling1D
+from tensorflow.keras.layers import Dense, Activation, ZeroPadding1D, \
+    GlobalAveragePooling1D, Add, Concatenate, Dropout, Conv1D, MaxPooling1D, BatchNormalization, Flatten, ELU
+from tensorflow.keras.optimizers import Adam, Adamax
+from tensorflow.keras.initializers import glorot_uniform
+from tensorflow.keras import Input, Sequential
 from sklearn.utils import shuffle
 
 import random
@@ -118,7 +112,7 @@ class DFNet:
     
     
 def df_accuracy(num_classes, num_epochs, seq_length, VERBOSE, X_tr, Y_tr, X_vl, Y_vl, X_te, Y_te):
-    OPTIMIZER = Adamax(lr=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # Optimizer
+    OPTIMIZER = Adamax(learning_rate=0.002, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
     input_shape = (seq_length,1)
     # Building and training model
 
