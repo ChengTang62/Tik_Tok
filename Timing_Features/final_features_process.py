@@ -12,12 +12,12 @@ random.seed(583004949)
 def data_details(dataset):
     datasets = ['Undefended', 'WTF-PAD', 'W-T-Simulated', 'W-T-Real', 'Onion-Sites']
     if dataset == datasets[0]: # Undefended
-        num_sites = 95
-        num_instances = 1000
-        tr_ins = 800
-        vl_ins = 100
-        te_ins = 100
-        bin_size = 20
+        num_sites = 8
+        num_instances = 100
+        tr_ins = 80
+        vl_ins = 10
+        te_ins = 10
+        bin_size = 2
     elif dataset == datasets[1]: # WTF_PAD
         num_sites = 95
         num_instances = 1000
@@ -95,7 +95,7 @@ def gen_save_feats(dataset, data_path, save_path):
                 with open(data_path + final_fname , "r") as file_pt:
                     traces = []
                     for line in file_pt:
-                        x = line.strip().split('\t')
+                        x = line.strip().split(' ')
                         x[0] = float(x[0])
                         x[1] = 1 if float(x[1]) > 0 else -1
                         traces.append(x)
@@ -173,8 +173,8 @@ def read_data(file_name):
     :return:
     """
     data = pd.read_csv(file_name, header=None)
-    return data[data.columns[:-1]].as_matrix(), \
-        data[data.columns[-1]].as_matrix()
+    return data[data.columns[:-1]].to_numpy(), \
+        data[data.columns[-1]].to_numpy()
 
 
 def making_matrx(X, Y, f_name, f_dir):
