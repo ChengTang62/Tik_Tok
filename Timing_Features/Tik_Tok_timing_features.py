@@ -17,11 +17,10 @@ import os
 import numpy as np
 import time
 from sklearn.utils import shuffle
-from keras import backend as K
-from keras.utils import np_utils
-from keras.optimizers import Adamax
 import tensorflow as tf
-import keras.backend.tensorflow_backend as ktf
+from tensorflow.keras import backend as K
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.optimizers import Adamax
 from os import path
 import argparse
 import random
@@ -35,6 +34,7 @@ random.seed(583004949)
 datasets = ['Undefended', 'WTF-PAD', 'W-T-Simulated', 'W-T-Real', 'Onion-Sites']
 
 parser = argparse.ArgumentParser()
+parser.add_argument('dataroot', type=str, help='path to the dataset root directory')
 parser.add_argument('dataset', type=str, help='Undefended, WTF-PAD, W-T-Simulated, W-T-Real, Onion-Sites')
 
 args = parser.parse_args()
@@ -46,7 +46,7 @@ dataset = args.dataset
 
 
 # Provide Data Path in place of data_root
-data_root = 'data_root/' # 
+data_root = args.dataroot + '/'
 save_path = os.getcwd() + '/' + 'save_data/' + str(dataset) + '/'
 
 try:
@@ -112,9 +112,9 @@ print(X_valid.shape[0], 'validation samples')
 print(X_test.shape[0], 'test samples')
 
 # Convert class vectors to categorical classes matrices
-y_train = np_utils.to_categorical(y_train, num_classes)
-y_valid = np_utils.to_categorical(y_valid, num_classes)
-y_test = np_utils.to_categorical(y_test, num_classes)
+y_train = to_categorical(y_train, num_classes)
+y_valid = to_categorical(y_valid, num_classes)
+y_test = to_categorical(y_test, num_classes)
 
 
 run_trial = 1 # change run_trial > 1 to get a standard deviation of the accuracy.
@@ -128,4 +128,3 @@ for j in range(run_trial):
 if run_trial !=1:
     print('Mean Acc: ',np.mean(df_res))
     print('STD of Mean: ',np.std(df_res))
-
